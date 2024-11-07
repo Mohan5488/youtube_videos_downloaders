@@ -1,0 +1,13 @@
+{%extends 'youtube.html'%}
+
+{% block content%}
+        {% for video_url in video_urls %}
+            <div style="margin-bottom: 20px;">
+                <video width="480" height="320" controls>
+                    <source src="{{ video_url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p>{{ video_url }}</p>
+            </div>
+        {% endfor %}
+{% endblock %} 
