@@ -121,7 +121,32 @@
             height: auto;
             border-radius: 8px;
         }
-        
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #007bff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -142,7 +167,7 @@
         <div class="inner">
             <h1>Free YouTube Video Downloader</h1>
             <h3>Download Videos from YouTube Channel</h3>
-            <form action="{% url 'downloader' %}" method="post">
+            <form id="downloadForm" action="{% url 'downloader' %}" method="post">
                 {% csrf_token %}
                 <label for="channel_url">YouTube Channel URL:</label>
                 <input type="text" id="channel_url" name="channel_url" required>
@@ -150,6 +175,24 @@
             </form>
         </div>
     </div>
+
+    <div class="spinner-overlay" id="spinnerOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("downloadForm");
+        const spinnerOverlay = document.getElementById("spinnerOverlay");
+
+        form.addEventListener("submit", function() {
+            spinnerOverlay.style.display = "flex"; // Show the spinner
+        });
+
+        
+        window.addEventListener("load", function() {
+            spinnerOverlay.style.display = "none"; // Hide the spinner
+        });
+    </script>
     
     {%if video_urls%}
         <h1>Your DownLoads</h1>
